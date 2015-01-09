@@ -2,4 +2,5 @@
 *.*~
 *.swp
 env/
+tmp/
 config.py

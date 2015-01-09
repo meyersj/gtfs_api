@@ -1,3 +1,5 @@
+BEGIN;
+
 DROP SCHEMA IF EXISTS import CASCADE;
 CREATE SCHEMA import;
 
@@ -46,6 +48,24 @@ CREATE TABLE import.trips
     trip_type VARCHAR
 );
 
+
+CREATE TABLE import.routes
+(
+    route_id INTEGER,
+    route_short_name VARCHAR,
+    route_long_name VARCHAR,
+    route_type VARCHAR,
+    route_url VARCHAR,
+    route_sort_order INTEGER
+);
+
+CREATE TABLE import.route_directions
+(
+    route_id INTEGER,
+    direction_id INTEGER,
+    direction_name VARCHAR
+);
+
 CREATE TABLE gtfs.trips
 (
     route_id INTEGER,
@@ -70,14 +90,28 @@ CREATE TABLE gtfs.stop_times
     PRIMARY KEY (trip_id, stop_sequence)
 );
 
+CREATE TABLE gtfs.routes
+(
+    route_id INTEGER,
+    route_desc VARCHAR,
+    route_sort_order INTEGER
+);
+
+CREATE TABLE gtfs.route_directions
+(
+    route_id INTEGER,
+    direction_id INTEGER,
+    direction_name VARCHAR
+);
+
 -- create indexes on gtfs tables
-CREATE INDEX ON gtfs.trips (route_id);
-CREATE INDEX ON gtfs.trips (direction_id);
-CREATE INDEX ON gtfs.trips (route_id, direction_id);
-CREATE INDEX ON gtfs.stops (stop_name);
-CREATE INDEX ON gtfs.stops USING gist(geom);
-CREATE INDEX ON gtfs.stop_times (trip_id);
-CREATE INDEX ON gtfs.stop_times (arrival_time);
+--CREATE INDEX ON gtfs.trips (route_id);
+--CREATE INDEX ON gtfs.trips (direction_id);
+--CREATE INDEX ON gtfs.trips (route_id, direction_id);
+--CREATE INDEX ON gtfs.stops (stop_name);
+--CREATE INDEX ON gtfs.stops USING gist(geom);
+--CREATE INDEX ON gtfs.stop_times (trip_id);
+--CREATE INDEX ON gtfs.stop_times (arrival_time);
 
 COMMIT;
 
